@@ -1,5 +1,5 @@
-<style>
-.tech-stack-icon {height: 20px}
+<style type="text/css">
+.tech-stack-icon {height: 20px;}
 </style>
 
 # Resume Chatbot
@@ -14,7 +14,6 @@
 
 + OpenAI API <img alt="OpenAI" class="tech-stack-icon" src="readme-img/openai.svg"/>
 + Spring Boot 
-![openai](readme-img%2Fopenai.svg){.tech-stack-icon}
 + PostgreSQL
 + Java
 + Log4j
