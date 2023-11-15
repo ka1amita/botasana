@@ -23,5 +23,3 @@
 + AWS
 + GitHub Acitons (or CIrcleCI)
 + ELK or other
-+ 
-
