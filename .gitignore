@@ -7,8 +7,9 @@ build/
 !**/src/test/**/build/
 
 ### .env ###
-*.env
-!sample.env
+.env
+.env.*
+!.env.example
 
 ### Gradle & Gradlew  ###
 .gradle
