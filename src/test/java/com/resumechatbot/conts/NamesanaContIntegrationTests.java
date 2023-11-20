@@ -16,9 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class NamesanaContIntegrationTests {
-  // TODO createa api key for intefration tests only
-  //  add it to "properties.namesana-intefration-test" progile / config
-
+  // note the usage of SECRET_OPENAI_API_TESTKEY! - see src/test/resources/application.properties
   @Autowired
   private MockMvc mockMvc;
 
