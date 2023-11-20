@@ -7,6 +7,7 @@ import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,9 +20,17 @@ import org.springframework.web.client.RestTemplate;
 public class ChatGptServiceImpl implements ChatGptService {
 
   static final Logger logger = LoggerFactory.getLogger(ChatGptServiceImpl.class);
-
+  private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
   @Value(value = "${openai.api.key}")
   private String openaiApiKey;
+  private final RestTemplate restTemplate;
+  @Value(value = "${openai.api.temperature:0.7}")
+  private float temperature;
+
+  @Autowired
+  public ChatGptServiceImpl(RestTemplate restTemplate) {
+    this.restTemplate = restTemplate;
+  }
 
   @Override
   public String complete(String prompt) {
@@ -39,13 +48,17 @@ public class ChatGptServiceImpl implements ChatGptService {
     String chatApiRequestBodyTemplate = """
         {
           "model": "gpt-3.5-turbo-1106",
-          "messages": [{"role": "user", "content": "%s"}],
-          "temperature": 0.7
+          "messages": [{"role": "user", "content": "%1$s"}],
+          "temperature": %2$.2f
         }
         """;
+
+    logger.debug("Chat API template set to \"{}\"", chatApiRequestBodyTemplate);
+    logger.debug("Chat API temperature set to \"{}\"", temperature);
+
     return String.format(chatApiRequestBodyTemplate,
                          // `"` has to be quoted otherwise break the JSON body
-                         prompt.replaceAll("\"", "'"));
+                         prompt.replaceAll("\"", "'"), temperature);
   }
 
   @NotNull
@@ -60,11 +73,9 @@ public class ChatGptServiceImpl implements ChatGptService {
 
     HttpEntity<String> chatApiRequest = new HttpEntity<>(chatApiRequestBody, headers);
 
-    ResponseEntity<String> chatApiResponse = new RestTemplate().postForEntity(
-        "https://api.openai.com/v1/chat/completions",
-        chatApiRequest,
-        String.class);
-    return chatApiResponse;
+    return restTemplate.postForEntity(CHAT_API_URL,
+                                      chatApiRequest,
+                                      String.class);
   }
 
   private String acceptChatApiResponse(ResponseEntity<String> chatApiResponse) {
