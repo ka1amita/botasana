@@ -21,15 +21,17 @@ public class ChatGptServiceImpl implements ChatGptService {
 
   static final Logger logger = LoggerFactory.getLogger(ChatGptServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
-  @Value(value = "${openai.api.key}")
-  private String openaiApiKey;
+  private final String openaiApiKey;
+  private final float chatTemperature;
   private final RestTemplate restTemplate;
-  @Value(value = "${openai.api.temperature:0.7}")
-  private float temperature;
 
   @Autowired
-  public ChatGptServiceImpl(RestTemplate restTemplate) {
+  public ChatGptServiceImpl(@Value(value = "${openai.api.key}") String openaiApiKey,
+      RestTemplate restTemplate,
+      @Value(value = "${openai.api.chat.temperature}") float chatTemperature) {
+    this.openaiApiKey = openaiApiKey;
     this.restTemplate = restTemplate;
+    this.chatTemperature = chatTemperature;
   }
 
   @Override
@@ -54,11 +56,11 @@ public class ChatGptServiceImpl implements ChatGptService {
         """;
 
     logger.debug("Chat API template set to \"{}\"", chatApiRequestBodyTemplate);
-    logger.debug("Chat API temperature set to \"{}\"", temperature);
+    logger.debug("Chat API temperature set to \"{}\"", chatTemperature);
 
     return String.format(chatApiRequestBodyTemplate,
                          // `"` has to be quoted otherwise break the JSON body
-                         prompt.replaceAll("\"", "'"), temperature);
+                         prompt.replaceAll("\"", "'"), chatTemperature);
   }
 
   @NotNull
