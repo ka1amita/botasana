@@ -23,7 +23,7 @@ class NamesanaContUnitTests {
   NamesanaCont namesanaCont;
 
   @Test
-  public void return_response_to_a_valid_prompt() throws JsonProcessingException {
+  public void returns_response_with_status_200_and_body_with_completion() throws JsonProcessingException {
     // arrange
     String completion = "completion";
     when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
