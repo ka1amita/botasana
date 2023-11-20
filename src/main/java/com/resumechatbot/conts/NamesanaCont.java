@@ -28,8 +28,8 @@ public class NamesanaCont {
 //    String prompt = inputDto.get("input");
   @GetMapping
   ResponseEntity<?> complete(@RequestParam String prompt) {
-    logger.info("{} has accepted an prompt: \"{}\"", this.getClass().getSimpleName(), prompt);
-    String completion = ChatGptService.complete(prompt);
+    logger.info("{} has accepted a prompt: \"{}\"", this.getClass().getSimpleName(), prompt);
+    String completion = chatGptService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("output", completion);
     return ResponseEntity.ok(response);
