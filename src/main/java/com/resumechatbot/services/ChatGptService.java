@@ -1,6 +1,6 @@
 package com.resumechatbot.services;
 
-interface ChatGptService {
+public interface ChatGptService {
 
   String complete(String prompt);
 }
