@@ -1,6 +1,6 @@
 package com.resumechatbot.conts;
 
-import com.resumechatbot.services.ChatGptService;
+import com.resumechatbot.services.ChatGptServiceImpl;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -17,18 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class NamesanaCont {
 
   static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
-  private final ChatGptService chatGptService;
+  private final ChatGptServiceImpl chatGptService;
 
   @Autowired
-  public NamesanaCont(ChatGptService chatGptService) {
+  public NamesanaCont(ChatGptServiceImpl chatGptService) {
     this.chatGptService = chatGptService;
   }
 
-  //  ResponseEntity<?> complete(@RequestBody Map<String, String> inputDto) {
-//    String prompt = inputDto.get("input");
   @GetMapping
   ResponseEntity<?> complete(@RequestParam String prompt) {
-    logger.info("{} has accepted a prompt: \"{}\"", this.getClass().getSimpleName(), prompt);
     String completion = chatGptService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("output", completion);
