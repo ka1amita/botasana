@@ -16,13 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
-class ChatGptServiceImplUnitTests {
+class ChatCompletionServiceImplUnitTests {
 
   @Mock
   RestTemplate restTemplate;
 
   @InjectMocks
-  ChatGptServiceImpl chatGptServiceImpl;
+  ChatCompletionServiceImpl chatCompletionService;
 
   @Test
   public void complete_returns_doublequoted_content_from_chat_api_response() {
@@ -60,7 +60,7 @@ class ChatGptServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatGptServiceImpl.complete("any");
+    String actual = chatCompletionService.complete("any");
     // assert
     assertEquals(expected.translateEscapes(), actual);
   }
@@ -101,7 +101,7 @@ class ChatGptServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatGptServiceImpl.complete("any");
+    String actual = chatCompletionService.complete("any");
     // assert
     assertEquals(expected, actual);
   }
@@ -141,7 +141,7 @@ class ChatGptServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatGptServiceImpl.complete("any");
+    String actual = chatCompletionService.complete("any");
     // assert
     assertEquals(expected, actual);
   }

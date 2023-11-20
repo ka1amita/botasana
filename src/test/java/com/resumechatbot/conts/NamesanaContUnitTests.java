@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.resumechatbot.services.ChatGptService;
+import com.resumechatbot.services.ChatCompletionService;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 class NamesanaContUnitTests {
 
   @Mock
-  ChatGptService chatGptService;
+  ChatCompletionService chatCompletionService;
   @InjectMocks
   NamesanaCont namesanaCont;
 
@@ -26,11 +26,11 @@ class NamesanaContUnitTests {
   public void return_response_to_a_valid_prompt() throws JsonProcessingException {
     // arrange
     String completion = "completion";
-    when(chatGptService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
     // act
     ResponseEntity<Map<String, String>> response = namesanaCont.complete("any");
     // assert
-    assertEquals(completion, response.getBody().get("output"));
+    assertEquals(completion, response.getBody().get("completion"));
     assertEquals(200, response.getStatusCode().value());
   }
 }

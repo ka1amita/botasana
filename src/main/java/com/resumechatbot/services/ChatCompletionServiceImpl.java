@@ -17,16 +17,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class ChatGptServiceImpl implements ChatGptService {
+public class ChatCompletionServiceImpl implements ChatCompletionService {
 
-  static final Logger logger = LoggerFactory.getLogger(ChatGptServiceImpl.class);
+  static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
-  private final String openaiApiKey;
-  private final float chatTemperature;
-  private final RestTemplate restTemplate;
+  private String openaiApiKey; // final modifier breaks unit ChatCompletionServiceImplUnitTests
+  private float chatTemperature; // final modifier breaks unit ChatCompletionServiceImplUnitTests
+  private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
+
+  public ChatCompletionServiceImpl() { // added to satisfy @InjectMocks in ChatCompletionServiceImplUnitTests
+  }
 
   @Autowired
-  public ChatGptServiceImpl(@Value(value = "${openai.api.key}") String openaiApiKey,
+  public ChatCompletionServiceImpl(
+      @Value(value = "${openai.api.key}") String openaiApiKey,
       RestTemplate restTemplate,
       @Value(value = "${openai.api.chat.temperature}") float chatTemperature) {
     this.openaiApiKey = openaiApiKey;
