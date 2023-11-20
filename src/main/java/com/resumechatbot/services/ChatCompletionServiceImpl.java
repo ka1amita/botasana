@@ -26,7 +26,7 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
 
   public ChatCompletionServiceImpl() {
-    // TODO try to get rid of the default constructor without breaking the tests
+    // TODO try to get rid of the default constructor and add final modifier to the fields without breaking the tests
     // added to satisfy @InjectMocks in ChatCompletionServiceImplUnitTests
   }
 
