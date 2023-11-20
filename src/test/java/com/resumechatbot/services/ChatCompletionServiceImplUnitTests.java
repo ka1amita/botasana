@@ -17,10 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
 class ChatCompletionServiceImplUnitTests {
-
   @Mock
   RestTemplate restTemplate;
-
   @InjectMocks
   ChatCompletionServiceImpl chatCompletionService;
 
@@ -51,7 +49,6 @@ class ChatCompletionServiceImplUnitTests {
                 ]
             }
             """;
-    // TODO test all unicode characters
     String expected = "\\\"quoted\\\"";
     ResponseEntity<String> response = new ResponseEntity<>(String.format(responseBody, expected),
                                                            HttpStatusCode.valueOf(200));

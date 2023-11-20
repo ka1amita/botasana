@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class NamesanaContUnitTests {
-
   @Mock
   ChatCompletionService chatCompletionService;
   @InjectMocks

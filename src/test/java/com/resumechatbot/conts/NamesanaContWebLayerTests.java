@@ -18,13 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(NamesanaCont.class)
 class NamesanaContWebLayerTests {
-  // TODO add it to "properties.namesana-integration-test" profile / config
-
   @Autowired
   private MockMvc mockMvc;
-
   @MockBean
   private ChatCompletionService chatCompletionService;
+
   @Test
   void endpoint_returns_response_with_status_200_and_json_completion() throws Exception {
     String completion = "completion";
@@ -35,6 +33,7 @@ class NamesanaContWebLayerTests {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.completion").value(completion));
   }
+
   @Test
   void endpoint_fails_without_any_request_parameter() throws Exception {
     String completion = "completion";
@@ -43,6 +42,7 @@ class NamesanaContWebLayerTests {
         .andDo(print())
         .andExpect(status().is4xxClientError());
   }
+
   @Test
   void endpoint_fails_wit_invalid_request_parameter() throws Exception {
     String completion = "completion";
