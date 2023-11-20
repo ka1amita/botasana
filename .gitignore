@@ -1,6 +1,10 @@
 cheatsheets/
 HELP.md
 
+### Logs ###
+/logs/*.log
+/logs/archived/*.gz
+
 ### Build ###
 build/
 !**/src/main/**/build/
