@@ -25,6 +25,88 @@ class ChatGptServiceImplUnitTests {
   ChatGptServiceImpl chatGptServiceImpl;
 
   @Test
+  public void complete_returns_doublequoted_content_from_chat_api_response() {
+    // arrange
+    String responseBody =
+        """
+            {
+                "id": "chatcmpl-abc123",
+                "object": "chat.completion",
+                "created": 1677858242,
+                "model": "gpt-3.5-turbo-1106",
+                "usage": {
+                    "prompt_tokens": 13,
+                    "completion_tokens": 7,
+                    "total_tokens": 20
+                },
+                "choices": [
+                    {
+                        "message": {
+                            "role": "assistant",
+                            "content": "%s"
+                        },
+                        "finish_reason": "stop",
+                        "index": 0
+                    }
+                ]
+            }
+            """;
+    // TODO test all unicode characters
+    String expected = "\\\"quoted\\\"";
+    ResponseEntity<String> response = new ResponseEntity<>(String.format(responseBody, expected),
+                                                           HttpStatusCode.valueOf(200));
+    when(restTemplate.postForEntity(any(String.class),
+                                    any(HttpEntity.class),
+                                    eq(String.class)))
+        .thenReturn(response);
+    // act
+    String actual = chatGptServiceImpl.complete("any");
+    // assert
+    assertEquals(expected.translateEscapes(), actual);
+  }
+
+  @Test
+  public void complete_returns_word_character_content_from_chat_api_response() {
+    // arrange
+    String responseBody =
+        """
+            {
+                "id": "chatcmpl-abc123",
+                "object": "chat.completion",
+                "created": 1677858242,
+                "model": "gpt-3.5-turbo-1106",
+                "usage": {
+                    "prompt_tokens": 13,
+                    "completion_tokens": 7,
+                    "total_tokens": 20
+                },
+                "choices": [
+                    {
+                        "message": {
+                            "role": "assistant",
+                            "content": "%s"
+                        },
+                        "finish_reason": "stop",
+                        "index": 0
+                    }
+                ]
+            }
+            """;
+    // TODO test all unicode characters
+    String expected = "_aA0";
+    ResponseEntity<String> response = new ResponseEntity<>(String.format(responseBody, expected),
+                                                           HttpStatusCode.valueOf(200));
+    when(restTemplate.postForEntity(any(String.class),
+                                    any(HttpEntity.class),
+                                    eq(String.class)))
+        .thenReturn(response);
+    // act
+    String actual = chatGptServiceImpl.complete("any");
+    // assert
+    assertEquals(expected, actual);
+  }
+
+  @Test
   public void complete_returns_letter_character_content_from_chat_api_response() {
     // arrange
     String responseBody =
