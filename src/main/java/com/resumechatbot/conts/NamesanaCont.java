@@ -1,6 +1,6 @@
 package com.resumechatbot.conts;
 
-import com.resumechatbot.services.ChatGptServiceImpl;
+import com.resumechatbot.services.ChatGptService;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class NamesanaCont {
 
   static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
-  private final ChatGptServiceImpl chatGptService;
+  private final ChatGptService chatGptService;
 
   @Autowired
-  public NamesanaCont(ChatGptServiceImpl chatGptService) {
+  public NamesanaCont(ChatGptService chatGptService) {
     this.chatGptService = chatGptService;
   }
 
   @GetMapping
-  ResponseEntity<?> complete(@RequestParam String prompt) {
+  ResponseEntity<Map<String, String>> complete(@RequestParam String prompt) {
     String completion = chatGptService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("output", completion);
