@@ -34,8 +34,8 @@ repositories {
 dependencies {
     // "Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0"
     //  https://docs.gradle.org/8.4/userguide/upgrading_version_8.html#test_framework_implementation_dependencies
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.9.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     // https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv
     implementation 'io.github.cdimascio:java-dotenv:5.2.2'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
