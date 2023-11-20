@@ -26,6 +26,8 @@ public class NamesanaCont {
 
   @GetMapping
   ResponseEntity<Map<String, String>> complete(@RequestParam String prompt) {
+    // TODO add input validation (length) - trim or refuse?
+    // TODO handle missing `prompt` request param
     String chatCompletion = chatCompletionService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("completion", chatCompletion);

@@ -25,7 +25,9 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   private float chatTemperature; // final modifier breaks unit ChatCompletionServiceImplUnitTests
   private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
 
-  public ChatCompletionServiceImpl() { // added to satisfy @InjectMocks in ChatCompletionServiceImplUnitTests
+  public ChatCompletionServiceImpl() {
+    // TODO try to get rid of the default constructor without breaking the tests
+    // added to satisfy @InjectMocks in ChatCompletionServiceImplUnitTests
   }
 
   @Autowired
@@ -51,6 +53,7 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   }
 
   private String prepareChatApiRequestBody(String prompt) {
+    // TODO add completion length limit to the api request
     String chatApiRequestBodyTemplate = """
         {
           "model": "gpt-3.5-turbo-1106",
