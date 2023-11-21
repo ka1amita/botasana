@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import com.resumechatbot.models.ChatApiPrompt;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,9 @@ import org.springframework.web.client.RestTemplate;
 class ChatCompletionServiceImplUnitTests {
   @Mock
   RestTemplate restTemplate;
+
+  @Mock
+  ChatApiPrompt chatApiPrompt;
   @InjectMocks
   ChatCompletionServiceImpl chatCompletionService;
 

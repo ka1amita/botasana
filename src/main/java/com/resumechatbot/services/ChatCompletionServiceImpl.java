@@ -3,6 +3,7 @@ package com.resumechatbot.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.resumechatbot.models.ChatApiPrompt;
 import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -21,10 +22,9 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
 
   static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
+
+  private ChatApiPrompt chatApiPrompt;
   private String openaiApiKey; // final modifier breaks unit ChatCompletionServiceImplUnitTests
-  private String openaiApiModel; // final modifier breaks unit ChatCompletionServiceImplUnitTests
-  private String systemContent; // final modifier breaks unit ChatCompletionServiceImplUnitTests
-  private float chatTemperature; // final modifier breaks unit ChatCompletionServiceImplUnitTests
   private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
 
   public ChatCompletionServiceImpl() {
@@ -35,73 +35,40 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   @Autowired
   public ChatCompletionServiceImpl(
       @Value(value = "${openai.api.key}") String openaiApiKey,
-      @Value(value = "${openai.api.chat.model}") String openaiApiModel,
-      @Value(value = "${openai.api.chat.system.content}") String systemContent,
-      @Value(value = "${openai.api.chat.temperature}") float chatTemperature,
+      ChatApiPrompt chatApiPrompt,
       RestTemplate restTemplate) {
     this.openaiApiKey = openaiApiKey;
-    this.openaiApiModel = openaiApiModel;
-    this.systemContent = systemContent;
-    this.chatTemperature = chatTemperature;
+    this.chatApiPrompt = chatApiPrompt;
     this.restTemplate = restTemplate;
   }
 
   @Override
   public String complete(String userContent) {
+    // also logged by `o.s.web.client.RestTemplate` logger
     logger.info("{} has accepted a prompt: \"{}\" for completion",
                 this.getClass().getSimpleName(),
                 userContent);
 
-    ResponseEntity<String> chatApiResponse = sendChatApiRequest(userContent);
+    chatApiPrompt.setUserContent(userContent); // TODO use Builder pattern?
+
+    ResponseEntity<String> chatApiResponse = sendChatApiRequest(chatApiPrompt);
     String completion = acceptChatApiResponse(chatApiResponse);
+
+    // also logged by `o.s.w.s.m.m.a.HttpEntityMethodProcessor` logger
     logger.info("{} has completed: \"{}\"", this.getClass().getSimpleName(), completion);
+
     return completion;
   }
 
-  private String prepareChatApiRequestBody(String prompt) {
-    // TODO add completion length limit to the api request with @Validate
-    // TODO use a ApiCompletionRequestBody class (DTO)
-    //  add additional {"role": "user", "content": "{"role": "user", "content": "%1$s"}"} and {"role": "assistant", "content": "I am sorry bossasana, I am runnasana late todaysana."}
-    String chatApiRequestBodyTemplate = """
-        {
-          "model": "%2$s",
-          "messages": [
-            {"role": "system", "content": "%3$s"},
-            {"role": "user", "content": "I am sorry boss, I am running late today."},
-            {"role": "assistant", "content": "I am sorry bossasana, I am runnasana latasana todaysana."},
-            {"role": "user", "content": "%1$s"}
-          ],
-          "temperature": %4$.2f
-        }
-        """;
-
-    logger.debug("Chat API template set to \"{}\"", chatApiRequestBodyTemplate);
-    logger.debug("Chat API model set to \"{}\"", openaiApiModel);
-    logger.debug("Chat API system content (master prompt) set to \"{}\"", systemContent);
-    logger.debug("Chat API temperature set to \"{}\"", chatTemperature);
-    String chatApiRequestBody = String.format(chatApiRequestBodyTemplate,
-                                              // `"` has to be quoted otherwise break the JSON body
-                                              prompt.replaceAll("\"", "'"),
-                                              openaiApiModel,
-                                              systemContent.replaceAll("\"", "'"),
-                                              chatTemperature);
-
-    logger.info("Chat API request body set to \"{}}\"", chatApiRequestBody);
-
-    return chatApiRequestBody;
-  }
-
   @NotNull
-  private ResponseEntity<String> sendChatApiRequest(String prompt) {
+  private ResponseEntity<String> sendChatApiRequest(ChatApiPrompt prompt) {
     // https://stackoverflow.com/questions/67984754/how-to-perform-an-http-request-to-another-server-from-spring-boot-controller
     HttpHeaders headers = new HttpHeaders();
     headers.setBearerAuth(openaiApiKey);
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    String chatApiRequestBody = prepareChatApiRequestBody(prompt);
-
-    HttpEntity<String> chatApiRequest = new HttpEntity<>(chatApiRequestBody, headers);
+    HttpEntity<String> chatApiRequest = new HttpEntity<>(prompt.toApiRequestBody(), headers);
 
     return restTemplate.postForEntity(CHAT_API_URL,
                                       chatApiRequest,

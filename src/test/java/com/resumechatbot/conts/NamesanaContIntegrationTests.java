@@ -11,21 +11,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@ActiveProfiles("integration-tests") in favour of @SpringBootTest(properties = ...)
 @AutoConfigureMockMvc
-@ActiveProfiles("integration-tests")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {
+    "openai.api.chat.temperature=1.0",
+    "openai.api.chat.messages[0].role=system",
+    "openai.api.chat.messages[0].content=Repeat"
+})
 class NamesanaContIntegrationTests {
-  // note the usage of SECRET_OPENAI_API_TEST_KEY and OPENAI_API_CHAT_TEST_TEMPERATURE
-  //  - see src/test/resources/application-integration-tests.properties
+
   @Autowired
   private MockMvc mockMvc;
 
   @Test
   void returns_() throws Exception {
-    this.mockMvc.perform(get("/namesana").param("prompt", "Say Test"))
+    this.mockMvc.perform(get("/namesana").param("prompt", "Test"))
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

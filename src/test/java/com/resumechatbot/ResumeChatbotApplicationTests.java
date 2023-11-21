@@ -9,5 +9,4 @@ class ResumeChatbotApplicationTests {
   @Test
   void contextLoads() {
   }
-
 }
