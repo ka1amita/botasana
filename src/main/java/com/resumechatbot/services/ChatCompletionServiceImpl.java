@@ -22,6 +22,8 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
   private String openaiApiKey; // final modifier breaks unit ChatCompletionServiceImplUnitTests
+  private String openaiApiModel; // final modifier breaks unit ChatCompletionServiceImplUnitTests
+  private String systemContent; // final modifier breaks unit ChatCompletionServiceImplUnitTests
   private float chatTemperature; // final modifier breaks unit ChatCompletionServiceImplUnitTests
   private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
 
@@ -33,41 +35,60 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   @Autowired
   public ChatCompletionServiceImpl(
       @Value(value = "${openai.api.key}") String openaiApiKey,
-      RestTemplate restTemplate,
-      @Value(value = "${openai.api.chat.temperature}") float chatTemperature) {
+      @Value(value = "${openai.api.chat.model}") String openaiApiModel,
+      @Value(value = "${openai.api.chat.system.content}") String systemContent,
+      @Value(value = "${openai.api.chat.temperature}") float chatTemperature,
+      RestTemplate restTemplate) {
     this.openaiApiKey = openaiApiKey;
-    this.restTemplate = restTemplate;
+    this.openaiApiModel = openaiApiModel;
+    this.systemContent = systemContent;
     this.chatTemperature = chatTemperature;
+    this.restTemplate = restTemplate;
   }
 
   @Override
-  public String complete(String prompt) {
+  public String complete(String userContent) {
     logger.info("{} has accepted a prompt: \"{}\" for completion",
                 this.getClass().getSimpleName(),
-                prompt);
+                userContent);
 
-    ResponseEntity<String> chatApiResponse = sendChatApiRequest(prompt);
+    ResponseEntity<String> chatApiResponse = sendChatApiRequest(userContent);
     String completion = acceptChatApiResponse(chatApiResponse);
     logger.info("{} has completed: \"{}\"", this.getClass().getSimpleName(), completion);
     return completion;
   }
 
   private String prepareChatApiRequestBody(String prompt) {
-    // TODO add completion length limit to the api request
+    // TODO add completion length limit to the api request with @Validate
+    // TODO use a ApiCompletionRequestBody class (DTO)
+    //  add additional {"role": "user", "content": "{"role": "user", "content": "%1$s"}"} and {"role": "assistant", "content": "I am sorry bossasana, I am runnasana late todaysana."}
     String chatApiRequestBodyTemplate = """
         {
-          "model": "gpt-3.5-turbo-1106",
-          "messages": [{"role": "user", "content": "%1$s"}],
-          "temperature": %2$.2f
+          "model": "%2$s",
+          "messages": [
+            {"role": "system", "content": "%3$s"},
+            {"role": "user", "content": "I am sorry boss, I am running late today."},
+            {"role": "assistant", "content": "I am sorry bossasana, I am runnasana latasana todaysana."},
+            {"role": "user", "content": "%1$s"}
+          ],
+          "temperature": %4$.2f
         }
         """;
 
     logger.debug("Chat API template set to \"{}\"", chatApiRequestBodyTemplate);
+    logger.debug("Chat API model set to \"{}\"", openaiApiModel);
+    logger.debug("Chat API system content (master prompt) set to \"{}\"", systemContent);
     logger.debug("Chat API temperature set to \"{}\"", chatTemperature);
+    String chatApiRequestBody = String.format(chatApiRequestBodyTemplate,
+                                              // `"` has to be quoted otherwise break the JSON body
+                                              prompt.replaceAll("\"", "'"),
+                                              openaiApiModel,
+                                              systemContent.replaceAll("\"", "'"),
+                                              chatTemperature);
 
-    return String.format(chatApiRequestBodyTemplate,
-                         // `"` has to be quoted otherwise break the JSON body
-                         prompt.replaceAll("\"", "'"), chatTemperature);
+    logger.info("Chat API request body set to \"{}}\"", chatApiRequestBody);
+
+    return chatApiRequestBody;
   }
 
   @NotNull
