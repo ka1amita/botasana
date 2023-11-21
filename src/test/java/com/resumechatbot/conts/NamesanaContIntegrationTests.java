@@ -26,8 +26,9 @@ class NamesanaContIntegrationTests {
   private MockMvc mockMvc;
 
   @Test
-  void returns_() throws Exception {
+  void app_returns_completion_to_a_valid_prompt() throws Exception {
     this.mockMvc.perform(get("/namesana").param("prompt", "Test"))
+        // TODO run this integration (and other costly) tests last after oll other cussed!
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))

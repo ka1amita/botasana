@@ -27,7 +27,7 @@ class ChatCompletionServiceImplUnitTests {
   ChatCompletionServiceImpl chatCompletionService;
 
   @Test
-  public void complete_returns_doublequoted_content_from_chat_api_response() {
+  public void complete_returns_double_quoted_content_from_chat_api_response() {
     // arrange
     String responseBody =
         """

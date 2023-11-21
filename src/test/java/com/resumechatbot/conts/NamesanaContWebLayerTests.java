@@ -1,5 +1,6 @@
 package com.resumechatbot.conts;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,20 +36,55 @@ class NamesanaContWebLayerTests {
   }
 
   @Test
-  void endpoint_fails_without_any_request_parameter() throws Exception {
+  void endpoint_fails_with_missing_prompt_request_parameter() throws Exception {
     String completion = "completion";
     when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
     this.mockMvc.perform(get("/namesana"))
         .andDo(print())
-        .andExpect(status().is4xxClientError());
+        .andExpect(status().is4xxClientError())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").value("Required request parameter 'prompt' for method parameter type String is not present"));
   }
 
   @Test
-  void endpoint_fails_wit_invalid_request_parameter() throws Exception {
+  void endpoint_fails_with_different_prompt_request_parameter() throws Exception {
     String completion = "completion";
     when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
-    this.mockMvc.perform(get("/namesana").param("invalid", "any"))
+    this.mockMvc.perform(get("/namesana").param("different", "some"))
         .andDo(print())
-        .andExpect(status().is4xxClientError());
+        .andExpect(status().is4xxClientError())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").value("Required request parameter 'prompt' for method parameter type String is not present"));
+  }
+
+  @Test
+  void endpoint_fails_with_empty_prompt_request_parameter() throws Exception {
+    String completion = "completion";
+    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    this.mockMvc.perform(get("/namesana").param("prompt", ""))
+        .andDo(print())
+        .andExpect(status().is4xxClientError())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").value("'prompt' parameter size must be between 1 and 20"));
+  }
+
+  @Test
+  void app_returns_error_json_to_a_too_long_prompt() throws Exception {
+    int promptMaxLength = 20;
+
+    StringBuilder builder = new StringBuilder();
+    builder.append('l');
+    for (int i = 0; i < promptMaxLength - 2; i++) {
+      builder.append('o');
+    }
+    builder.append("ng");
+    String oneChartooLongString = builder.toString();
+    assertEquals(promptMaxLength + 1, oneChartooLongString.length());
+
+    this.mockMvc.perform(get("/namesana").param("prompt", oneChartooLongString))
+        .andDo(print())
+        .andExpect(status().is4xxClientError())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").value("'prompt' parameter size must be between 1 and 20"));
   }
 }

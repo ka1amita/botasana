@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ChatApiPrompt {
 
+  @JsonIgnore // not to be sent to the Chat API
   static final Logger logger = LoggerFactory.getLogger(ChatApiPrompt.class);
   private final String model;
   private final List<Map<String, String>> messages;
@@ -25,7 +26,6 @@ public class ChatApiPrompt {
   @Autowired
   public ChatApiPrompt(ChatApiConfig chatApiConfig) {
     // TODO extend ChatApiConfig instead?
-    // TODO add completion length limit to the api request with @Validate
     this.model = chatApiConfig.getModel();
     this.messages = chatApiConfig.getMessages();
     this.userContent = "";
@@ -70,7 +70,6 @@ public class ChatApiPrompt {
       logger.error("\"{}\" while mapping chat API prompt to a request body", e.getMessage(), e);
       throw new RuntimeException(e);
     }
-    // TODO @Test that only the correct keys are present in the chatApiResponseBody
     return chatApiResponseBody;
   }
 }
