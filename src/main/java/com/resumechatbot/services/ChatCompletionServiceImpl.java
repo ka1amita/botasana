@@ -23,14 +23,9 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
 
-  private ChatApiPrompt chatApiPrompt;
-  private String openaiApiKey; // final modifier breaks unit ChatCompletionServiceImplUnitTests
-  private RestTemplate restTemplate; // final modifier breaks unit ChatCompletionServiceImplUnitTests
-
-  public ChatCompletionServiceImpl() {
-    // TODO try to get rid of the default constructor and add final modifier to the fields without breaking the tests
-    // added to satisfy @InjectMocks in ChatCompletionServiceImplUnitTests
-  }
+  private final ChatApiPrompt chatApiPrompt;
+  private final String openaiApiKey;
+  private final RestTemplate restTemplate;
 
   @Autowired
   public ChatCompletionServiceImpl(
