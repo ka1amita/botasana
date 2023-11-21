@@ -42,23 +42,4 @@ public class NamesanaCont {
     response.put("completion", chatCompletion);
     return ResponseEntity.ok(response);
   }
-
-  @ExceptionHandler(MissingServletRequestParameterException.class)
-  ResponseEntity<Map<String, String>> handleMissingServletRequestParameterException(
-      Exception e) {
-
-    Map<String, String> errorBody = new HashMap<>();
-    errorBody.put("error", e.getMessage());
-    return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler(ValidationException.class)
-    // doesn't catch with ConstraintViolationException.classs!
-  ResponseEntity<Map<String, String>> handleConstraintViolationException(
-      ValidationException e) {
-
-    Map<String, String> errorBody = new HashMap<>();
-    errorBody.put("error", e.getMessage().replaceAll("^complete.prompt: ", ""));
-    return new ResponseEntity<>(errorBody, HttpStatus.BAD_REQUEST);
-  }
 }
