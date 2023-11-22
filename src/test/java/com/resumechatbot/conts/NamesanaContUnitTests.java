@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.resumechatbot.services.ChatCompletionService;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class NamesanaContUnitTests {
   NamesanaCont namesanaCont;
 
   @Test
-  public void returns_response_with_status_200_and_body_with_completion() throws JsonProcessingException {
+  public void returns_response_with_status_200_and_body_with_completion() {
     // arrange
     String completion = "completion";
     when(chatCompletionService.complete(any(String.class))).thenReturn(completion);

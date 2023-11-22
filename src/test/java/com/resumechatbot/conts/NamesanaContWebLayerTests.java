@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.resumechatbot.services.ChatCompletionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,6 +20,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(NamesanaCont.class)
 class NamesanaContWebLayerTests {
+
+  @Value(value = "${prompt.validation.length.max}")
+  private int promptMaxLength;
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -65,12 +69,11 @@ class NamesanaContWebLayerTests {
         .andDo(print())
         .andExpect(status().is4xxClientError())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.error").value("'prompt' parameter size must be between 1 and 20"));
+        .andExpect(jsonPath("$.error").value("invalid 'prompt' parameter"));
   }
 
   @Test
   void app_returns_error_json_to_a_too_long_prompt() throws Exception {
-    int promptMaxLength = 20;
 
     StringBuilder builder = new StringBuilder();
     builder.append('l');
@@ -85,6 +88,6 @@ class NamesanaContWebLayerTests {
         .andDo(print())
         .andExpect(status().is4xxClientError())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.error").value("'prompt' parameter size must be between 1 and 20"));
+        .andExpect(jsonPath("$.error").value("invalid 'prompt' parameter"));
   }
 }

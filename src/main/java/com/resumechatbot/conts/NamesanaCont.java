@@ -1,18 +1,15 @@
 package com.resumechatbot.conts;
 
 import com.resumechatbot.services.ChatCompletionService;
-import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.Size;
+import com.resumechatbot.utils.ClientPrompt;
 import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +22,6 @@ public class NamesanaCont {
 
   static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
   private final ChatCompletionService chatCompletionService;
-  private final int promptMaxLength = 20;
 
   @Autowired
   public NamesanaCont(ChatCompletionService chatCompletionService) {
@@ -33,9 +29,8 @@ public class NamesanaCont {
   }
 
   @GetMapping
-  ResponseEntity<Map<String, String>> complete(@RequestParam @Size(
-      min = 1, max = promptMaxLength, // TODO move the validation to Service layer?
-      message = "'prompt' parameter size must be between 1 and 20") String prompt) {
+  ResponseEntity<Map<String, String>> complete(@RequestParam @ClientPrompt String prompt) {
+    // TODO move the validation to Service layer?
 
     String chatCompletion = chatCompletionService.complete(prompt);
     Map<String, String> response = new HashMap<>();
