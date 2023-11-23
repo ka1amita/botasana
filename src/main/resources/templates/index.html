@@ -1,8 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 </head>
+
 <body>
 <div id="chat-container">
   <div id="chat-messages"></div>
   <div id="user-input">
-    <input type="text" id="user-message" placeholder="Type your sentence">
+    <input type="text" id="user-message" placeholder="Type a sentence. Response will sound like asanas.">
 <!--    TODO add front-ent validation of the max length-->
     <button onclick="sendMessage()">Send</button>
   </div>
