@@ -11,12 +11,12 @@ class ClientPromptValidator implements ConstraintValidator<ClientPrompt, String>
 // TODO figure how to better load external configuratuion and ve able to output expanded Validation error messeages
 
   @Value(value = "${prompt.validation.length.min}")
-  private int min;
+  private int minPromptLength;
   @Value(value = "${prompt.validation.length.max}")
-  private int max;
+  private int maxPromptLength;
 
   @Override
   public boolean isValid(String prompt, ConstraintValidatorContext context) {
-    return prompt.length() < max && prompt.length() > min;
+    return prompt.length() < maxPromptLength && prompt.length() > minPromptLength;
   }
 }

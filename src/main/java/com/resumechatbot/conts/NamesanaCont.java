@@ -8,8 +8,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +23,9 @@ public class NamesanaCont {
 
   static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
   private final ChatCompletionService chatCompletionService;
+  @Value(value = "${prompt.validation.length.max}")
+  private int maxPromptLength;
+
 
   @Autowired
   public NamesanaCont(ChatCompletionService chatCompletionService) {
@@ -28,7 +33,8 @@ public class NamesanaCont {
   }
 
   @GetMapping("/")
-  public String getIndex() {
+  public String getIndex(Model model) {
+    model.addAttribute("maxPromptLength", maxPromptLength);
     return "index";
   }
 
