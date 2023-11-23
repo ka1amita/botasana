@@ -1,10 +1,10 @@
-package com.resumechatbot.models;
+package com.resumechatbot.dtos;
 
 import com.resumechatbot.utils.ClientPrompt;
 
 public class PromptDto {
 
-  @ClientPrompt
+  @ClientPrompt(message = "{error.client_prompt}")
   private String prompt;
 
   public String getPrompt() {

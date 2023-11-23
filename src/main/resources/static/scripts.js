@@ -7,6 +7,7 @@ async function sendMessage() {
 
   const chatMessages = document.getElementById('chat-messages');
 
+
   // User's question
   const userBubble = document.createElement('div');
   userBubble.className = 'message user-message';
@@ -23,11 +24,6 @@ async function sendMessage() {
       },
       body: JSON.stringify({prompt: userMessage}),
     });
-    console.log('After fetch');
-
-    if (!response.ok) {
-      throw new Error('HTTP request failed');
-    }
 
     const result = await response.json();
 
@@ -40,16 +36,24 @@ async function sendMessage() {
       copyTextToClipboard(botMessage.lastChild.textContent);
     };
     chatMessages.appendChild(botMessage);
+
+    // Clear the user input and error message
+    document.getElementById('user-message').value = '';
   } catch (error) {
     console.error('Error:', error);
+    errorMessages.innerText = 'Error: ' + error;
     // Handle error, e.g., display a default bot message
+    const botMessage = document.createElement('div');
+    botMessage.className = 'message bot-message';
+    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>Oupsasana, something went wrongasana';
+    botMessage.onclick = function () {
+      copyTextToClipboard(botMessage.lastChild.textContent);
+    };
+    chatMessages.appendChild(botMessage);
+  } finally {
+    // Scroll to the bottom to show the latest messages
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
-
-  // Clear the user input
-  document.getElementById('user-message').value = '';
-
-  // Scroll to the bottom to show the latest messages
-  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
 function copyTextToClipboard(text) {

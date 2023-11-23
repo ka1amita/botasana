@@ -1,6 +1,6 @@
 package com.resumechatbot.conts;
 
-import com.resumechatbot.models.PromptDto;
+import com.resumechatbot.dtos.PromptDto;
 import com.resumechatbot.services.ChatCompletionService;
 import jakarta.validation.Valid;
 import java.util.HashMap;

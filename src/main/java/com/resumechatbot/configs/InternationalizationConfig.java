@@ -25,7 +25,7 @@ public class InternationalizationConfig implements WebMvcConfigurer {
     return messageSource;
   }
 
-  @Bean //for annotations like @NotEmpty, @Email
+  @Bean //for Validation annotations like @Email
   public LocalValidatorFactoryBean validator() {
     LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
     bean.setValidationMessageSource(messageSource());

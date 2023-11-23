@@ -17,8 +17,7 @@
   <div id="user-input">
     <input type="text" id="user-message"
            placeholder="Type a sentence."
-           th:placeholder="#{input.placeholder}">
-<!--    TODO add front-ent validation of the max length-->
+           th:placeholder="#{input.placeholder}" th:maxlength="${max}">
     <button onclick="sendMessage()">Send</button>
   </div>
 </div>
