@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-public class NamesanaCont {
+public class BotasanaCont {
 
-  static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
+  static final Logger logger = LoggerFactory.getLogger(BotasanaCont.class);
   private final ChatCompletionService chatCompletionService;
   @Value(value = "${prompt.validation.length.max}")
   private int maxPromptLength;
 
 
   @Autowired
-  public NamesanaCont(ChatCompletionService chatCompletionService) {
+  public BotasanaCont(ChatCompletionService chatCompletionService) {
     this.chatCompletionService = chatCompletionService;
   }
 
@@ -38,7 +38,7 @@ public class NamesanaCont {
     return "index";
   }
 
-  @PostMapping("/namesana")
+  @PostMapping("/botasana")
   @ResponseBody
   @ResponseStatus(value = HttpStatus.OK)
   Map<String, String> completePost(@Valid @RequestBody PromptDto prompt) {

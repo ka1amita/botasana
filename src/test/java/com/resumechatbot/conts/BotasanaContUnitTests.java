@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.resumechatbot.dtos.PromptDto;
 import com.resumechatbot.services.ChatCompletionService;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
@@ -14,22 +15,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
-class NamesanaContUnitTests {
+class BotasanaContUnitTests {
 
   @Mock
   ChatCompletionService chatCompletionService;
   @InjectMocks
-  NamesanaCont namesanaCont;
+  BotasanaCont botasanaCont;
 
   @Test
   public void returns_response_with_status_200_and_body_with_completion() {
     // arrange
     String completion = "completion";
     when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    PromptDto prompt = new PromptDto();
+    prompt.setPrompt("any");
     // act
-    ResponseEntity<Map<String, String>> response = namesanaCont.complete("any");
+    Map<String, String> response = botasanaCont.completePost(prompt);
     // assert
-    assertEquals(completion, response.getBody().get("completion"));
-    assertEquals(200, response.getStatusCode().value());
+    assertEquals(completion, response.get("completion"));
   }
 }

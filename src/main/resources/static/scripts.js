@@ -17,7 +17,7 @@ async function sendMessage() {
 
   // Make HTTP request to the API
   try {
-    const response = await fetch('http://127.0.0.1:8080/namesana', {
+    const response = await fetch('http://127.0.0.1:8080/botasana', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
