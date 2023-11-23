@@ -37,7 +37,7 @@ async function sendMessage() {
     botMessage.innerHTML = '<div class="label bot-label"><span class="bot-icon"></span>Bot</div>'
         + result.completion;
     botMessage.onclick = function () {
-      copyTextToClipboard(botMessage.innerText);
+      copyTextToClipboard(botMessage.lastChild.textContent);
     };
     chatMessages.appendChild(botMessage);
   } catch (error) {
