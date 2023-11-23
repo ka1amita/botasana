@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.resumechatbot.configs.ChatApiConfig;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class ChatApiPrompt {
   public ChatApiPrompt(ChatApiConfig chatApiConfig) {
     // TODO extend ChatApiConfig instead?
     this.model = chatApiConfig.getModel();
-    this.messages = chatApiConfig.getMessages();
+    this.messages = new ArrayList<>(chatApiConfig.getMessages());
     this.userContent = "";
     this.temperature = chatApiConfig.getTemperature();
   }

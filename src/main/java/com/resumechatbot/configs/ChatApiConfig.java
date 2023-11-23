@@ -18,7 +18,7 @@ public class ChatApiConfig {
   @ConstructorBinding
   public ChatApiConfig(List<Map<String, String>> messages, String model, float temperature) {
     this.model = escapePrompt(model);
-    this.messages = escapePrompt(messages);
+    this.messages = List.of(escapePrompt(messages).toArray(new Map[]{})); // unmodifiable list!
     this.temperature = temperature;
   }
 

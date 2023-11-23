@@ -3,6 +3,7 @@ package com.resumechatbot.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.resumechatbot.configs.ChatApiConfig;
 import com.resumechatbot.models.ChatApiPrompt;
 import java.util.Collections;
 import org.jetbrains.annotations.NotNull;
@@ -22,19 +23,15 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
 
   static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
-
-  private final ChatApiPrompt chatApiPrompt;
+  private final ChatApiConfig chatApiConfig;
   private final String openaiApiKey;
-  private final RestTemplate restTemplate;
 
   @Autowired
   public ChatCompletionServiceImpl(
       @Value(value = "${openai.api.key}") String openaiApiKey,
-      ChatApiPrompt chatApiPrompt,
-      RestTemplate restTemplate) {
+      ChatApiConfig chatApiConfig) {
     this.openaiApiKey = openaiApiKey;
-    this.chatApiPrompt = chatApiPrompt;
-    this.restTemplate = restTemplate;
+    this.chatApiConfig = chatApiConfig;
   }
 
   @Override
@@ -44,7 +41,8 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
                 this.getClass().getSimpleName(),
                 userContent);
 
-    chatApiPrompt.setUserContent(userContent); // TODO use Builder pattern?
+    ChatApiPrompt chatApiPrompt = new ChatApiPrompt(chatApiConfig); // must be new! TODO add test to check
+    chatApiPrompt.setUserContent(userContent);
 
     ResponseEntity<String> chatApiResponse = sendChatApiRequest(chatApiPrompt);
     String completion = acceptChatApiResponse(chatApiResponse);
@@ -65,9 +63,9 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
 
     HttpEntity<String> chatApiRequest = new HttpEntity<>(prompt.toApiRequestBody(), headers);
 
-    return restTemplate.postForEntity(CHAT_API_URL,
-                                      chatApiRequest,
-                                      String.class);
+    return new RestTemplate().postForEntity(CHAT_API_URL,
+                                          chatApiRequest,
+                                          String.class);
   }
 
   private String acceptChatApiResponse(ResponseEntity<String> chatApiResponse) {
