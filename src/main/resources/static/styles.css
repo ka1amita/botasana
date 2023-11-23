@@ -57,12 +57,12 @@ body {
 }
 
 .user-icon::before {
-  content: '👤'; /* User icon */
+  content: '🧘'; /* User icon */
   margin-right: 5px;
 }
 
 .bot-icon::before {
-  content: '🤖'; /* Bot icon */
+  content: '🪷'; /* Bot icon */
   margin-right: 5px;
 }
 
