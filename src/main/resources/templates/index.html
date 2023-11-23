@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Namesana: Yoga Sentence Completion Chat</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    #chat-container {
+      width: 300px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    #chat-messages {
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 8px;
+      border-radius: 4px;
+      margin-top: 22px;
+      position: relative;
+    }
+
+    .user-message {
+      background-color: #e0f7fa; /* Light blue for user messages */
+      text-align: left;
+      margin-right: 50px; /* Adjust the margin to shift the bot's bubbles to the right */
+    }
+
+    .bot-message {
+      background-color: #e8eaf6; /* Light purple for bot messages */
+      text-align: right;
+      margin-left: 50px; /* Adjust the margin to shift the bot's bubbles to the right */
+    }
+
+    .label {
+      position: absolute;
+      font-size: 12px;
+    }
+
+    .user-label {
+      top: -20px;
+      left: 5px;
+    }
+
+    .bot-label {
+      top: -20px;
+      right: 5px;
+    }
+
+    .user-icon::before {
+      content: '👤'; /* User icon */
+      margin-right: 5px;
+    }
+
+    .bot-icon::before {
+      content: '🤖'; /* Bot icon */
+      margin-right: 5px;
+    }
+
+    #user-input {
+      display: flex;
+      padding: 8px;
+      align-items: center;
+      border-top: 1px solid #ccc;
+    }
+
+    #user-input input {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      margin-right: 8px;
+    }
+
+    #user-input button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div id="chat-container">
+  <div id="chat-messages"></div>
+  <div id="user-input">
+    <input type="text" id="user-message" placeholder="Type your sentence">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  async function sendMessage() {
+    const userMessage = document.getElementById('user-message').value;
+
+    if (userMessage.trim() === '') {
+      return;
+    }
+
+    const chatMessages = document.getElementById('chat-messages');
+
+    // User's question
+    const userBubble = document.createElement('div');
+    userBubble.className = 'message user-message';
+    userBubble.innerHTML = '<div class="label user-label"><span class="user-icon"></span>User</div>'
+        + userMessage;
+    chatMessages.appendChild(userBubble);
+
+    // Make HTTP request to the API
+    try {
+      const response = await fetch('http://127.0.0.1:8080/namesana', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({prompt: userMessage}),
+      });
+      console.log('After fetch');
+
+      if (!response.ok) {
+        throw new Error('HTTP request failed');
+      }
+
+      const result = await response.json();
+
+      // Simulate a response
+      const botMessage = document.createElement('div');
+      botMessage.className = 'message bot-message';
+      botMessage.innerHTML = '<div class="label bot-label"><span class="bot-icon"></span>Bot</div>'
+          + result.completion;
+      botMessage.onclick = function () {
+        copyTextToClipboard(botMessage.innerText);
+      };
+      chatMessages.appendChild(botMessage);
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error, e.g., display a default bot message
+    }
+
+    // Clear the user input
+    document.getElementById('user-message').value = '';
+
+    // Scroll to the bottom to show the latest messages
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function copyTextToClipboard(text) {
+    // Create a temporary textarea to hold the text to be copied
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+
+    // Select and copy the text
+    // TODO replace with current solution
+    textarea.select();
+    document.execCommand('copy');
+
+    // Remove the temporary textarea
+    document.body.removeChild(textarea);
+
+    alert('Text copied to clipboard!');
+  }
+</script>
+</body>
+</html>

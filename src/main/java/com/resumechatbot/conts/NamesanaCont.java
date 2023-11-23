@@ -1,23 +1,25 @@
 package com.resumechatbot.conts;
 
+import com.resumechatbot.models.PromptDto;
 import com.resumechatbot.services.ChatCompletionService;
 import com.resumechatbot.utils.ClientPrompt;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Validated // for the validation of request parameters
-@RestController
-@RequestMapping("/namesana")
+@Controller
 public class NamesanaCont {
 
   static final Logger logger = LoggerFactory.getLogger(NamesanaCont.class);
@@ -28,13 +30,19 @@ public class NamesanaCont {
     this.chatCompletionService = chatCompletionService;
   }
 
-  @GetMapping
-  ResponseEntity<Map<String, String>> complete(@RequestParam @ClientPrompt String prompt) {
-    // TODO move the validation to Service layer?
+  @GetMapping("/")
+  public String getIndex() {
+    return "index";
+  }
 
-    String chatCompletion = chatCompletionService.complete(prompt);
+  @PostMapping("/namesana")
+  @ResponseBody
+  @ResponseStatus(value = HttpStatus.OK)
+  Map<String, String> completePost(@Valid @RequestBody PromptDto prompt) {
+    // TODO validate prompt
+    String chatCompletion = chatCompletionService.complete(prompt.getPrompt());
     Map<String, String> response = new HashMap<>();
     response.put("completion", chatCompletion);
-    return ResponseEntity.ok(response);
+    return response;
   }
 }
