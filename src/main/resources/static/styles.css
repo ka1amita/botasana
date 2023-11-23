@@ -6,7 +6,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f0f0;
+  background-color: #ffe6e6;
 }
 
 #chat-container {
@@ -23,25 +23,28 @@ body {
 }
 
 .message {
+  word-wrap: break-word;
+  padding: 5px;
   margin-bottom: 8px;
   border-radius: 4px;
-  margin-top: 22px;
+  margin-top: 24px;
   position: relative;
 }
 
 .user-message {
-  background-color: #e0f7fa; /* Light blue for user messages */
+  background-color: #ffe6f3; /* Light blue for user messages */
   text-align: left;
   margin-right: 50px; /* Adjust the margin to shift the bot's bubbles to the right */
 }
 
 .bot-message {
-  background-color: #e8eaf6; /* Light purple for bot messages */
+  background-color: #fff3e6; /* Light purple for bot messages */
   text-align: right;
   margin-left: 50px; /* Adjust the margin to shift the bot's bubbles to the right */
 }
 
 .label {
+  font-family: 'Arial', sans-serif;
   position: absolute;
   font-size: 12px;
 }
@@ -82,10 +85,19 @@ body {
 }
 
 #user-input button {
-  background-color: #4CAF50;
+  background-color: #fa0082;
   color: #fff;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+#user-input input, .message {
+  font-family: 'Dancing Script', cursive;
+}
+
+#user-input input:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 10px rgba(250, 0, 130);
 }
