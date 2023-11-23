@@ -2,12 +2,9 @@ package com.resumechatbot.conts;
 
 import com.resumechatbot.models.PromptDto;
 import com.resumechatbot.services.ChatCompletionService;
-import com.resumechatbot.utils.ClientPrompt;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

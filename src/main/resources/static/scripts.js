@@ -10,7 +10,7 @@ async function sendMessage() {
   // User's question
   const userBubble = document.createElement('div');
   userBubble.className = 'message user-message';
-  userBubble.innerHTML = '<div class="label user-label"><span class="user-icon"></span>You</div>'
+  userBubble.innerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>'
       + userMessage;
   chatMessages.appendChild(userBubble);
 
@@ -34,7 +34,7 @@ async function sendMessage() {
     // Simulate a response
     const botMessage = document.createElement('div');
     botMessage.className = 'message bot-message';
-    botMessage.innerHTML = '<div class="label bot-label"><span class="bot-icon"></span>Botasana</div>'
+    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>'
         + result.completion;
     botMessage.onclick = function () {
       copyTextToClipboard(botMessage.lastChild.textContent);

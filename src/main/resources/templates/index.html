@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Namesana: Yoga Sentence Completion Chat</title>
+  <title>Botasana: Asana Sentence Completion Chat Bot</title>
   <link rel="stylesheet" type="text/css" media="all"  href="../static/styles.css" th:href="@{styles.css}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,7 +15,9 @@
 <div id="chat-container">
   <div id="chat-messages"></div>
   <div id="user-input">
-    <input type="text" id="user-message" placeholder="Type a sentence. Response will sound like asanas.">
+    <input type="text" id="user-message"
+           placeholder="Type a sentence."
+           th:placeholder="#{input.placeholder}">
 <!--    TODO add front-ent validation of the max length-->
     <button onclick="sendMessage()">Send</button>
   </div>
