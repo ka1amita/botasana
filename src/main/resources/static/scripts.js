@@ -52,7 +52,8 @@ async function sendMessage() {
     chatMessages.appendChild(botMessage);
   } finally {
     // Scroll to the bottom to show the latest messages
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    const inputElement = document.getElementById('user-message')
+    inputElement.scrollIntoView({ behavior: "smooth"})
   }
 }
 
@@ -71,4 +72,5 @@ function copyTextToClipboard(text) {
   document.body.removeChild(textarea);
 
   alert('Text copied to clipboard!');
+  // TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
 }
