@@ -1,19 +1,21 @@
 async function sendMessage() {
-  const userMessage = document.getElementById('user-message').value;
+  const userPrompt = document.getElementById('user-prompt').value;
 
-  if (userMessage.trim() === '') {
+  if (userPrompt.trim() === '') {
     return;
   }
 
   const chatMessages = document.getElementById('chat-messages');
 
-
   // User's question
   const userBubble = document.createElement('div');
   userBubble.className = 'message user-message';
   userBubble.innerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>'
-      + userMessage;
+      + userPrompt;
   chatMessages.appendChild(userBubble);
+
+  const inputElement = document.getElementById('user-prompt')
+  inputElement.scrollIntoView({behavior: "smooth"})
 
   // Make HTTP request to the API
   try {
@@ -22,7 +24,7 @@ async function sendMessage() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({prompt: userMessage}),
+      body: JSON.stringify({prompt: userPrompt}),
     });
 
     const result = await response.json();
@@ -38,10 +40,9 @@ async function sendMessage() {
     chatMessages.appendChild(botMessage);
 
     // Clear the user input and error message
-    document.getElementById('user-message').value = '';
+    document.getElementById('user-prompt').value = '';
   } catch (error) {
     console.error('Error:', error);
-    errorMessages.innerText = 'Error: ' + error;
     // Handle error, e.g., display a default bot message
     const botMessage = document.createElement('div');
     botMessage.className = 'message bot-message';
@@ -51,8 +52,7 @@ async function sendMessage() {
     };
     chatMessages.appendChild(botMessage);
   } finally {
-    // Scroll to the bottom to show the latest messages
-    const inputElement = document.getElementById('user-message')
+    // Scroll to the input to show the latest messages
     inputElement.scrollIntoView({ behavior: "smooth"})
   }
 }
