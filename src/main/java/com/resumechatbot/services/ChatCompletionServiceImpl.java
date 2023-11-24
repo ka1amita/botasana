@@ -4,8 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.resumechatbot.configs.ChatApiConfig;
-import com.resumechatbot.models.ChatApiPrompt;
+import com.resumechatbot.dtos.ChatApiRequestDto;
+import com.resumechatbot.dtos.PromptDto;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,16 +40,12 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   }
 
   @Override
-  public String complete(String userContent) {
-    // also logged by `o.s.web.client.RestTemplate` logger
-    logger.info("{} has accepted a prompt: \"{}\" for completion",
-                this.getClass().getSimpleName(),
-                userContent);
+  public String complete(PromptDto promptDto) {
+    promptDto.setSettingMessages(chatApiConfig);
 
-    ChatApiPrompt chatApiPrompt = new ChatApiPrompt(chatApiConfig); // must be new! TODO add test to check
-    chatApiPrompt.setUserContent(userContent);
+    ChatApiRequestDto chatApiRequestDto = mapChatApiRequestDto(promptDto);
 
-    ResponseEntity<String> chatApiResponse = sendChatApiRequest(chatApiPrompt);
+    ResponseEntity<String> chatApiResponse = sendChatApiRequest(chatApiRequestDto);
     String completion = acceptChatApiResponse(chatApiResponse);
 
     // also logged by `o.s.w.s.m.m.a.HttpEntityMethodProcessor` logger
@@ -54,14 +55,15 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
   }
 
   @NotNull
-  private ResponseEntity<String> sendChatApiRequest(ChatApiPrompt prompt) {
+  private ResponseEntity<String> sendChatApiRequest(ChatApiRequestDto chatApiRequestDto) {
     // https://stackoverflow.com/questions/67984754/how-to-perform-an-http-request-to-another-server-from-spring-boot-controller
     HttpHeaders headers = new HttpHeaders();
     headers.setBearerAuth(openaiApiKey);
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     headers.setContentType(MediaType.APPLICATION_JSON);
 
-    HttpEntity<String> chatApiRequest = new HttpEntity<>(prompt.toApiRequestBody(), headers);
+    HttpEntity<String> chatApiRequest =
+        new HttpEntity<>(chatApiRequestDto.toApiRequestBody(), headers);
 
     return new RestTemplate().postForEntity(CHAT_API_URL,
                                           chatApiRequest,
@@ -74,9 +76,20 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
     try {
       tree = new ObjectMapper().readTree(chatApiResponseBody);
     } catch (JsonProcessingException e) {
-      logger.error("\"{}\" while mapping chat API response body", e.getMessage(), e);
+      logger.error("\"{}\" while mapping response to a completion string", e.getMessage(), e);
       throw new RuntimeException(e);
     }
     return tree.get("choices").get(0).get("message").get("content").asText();
+  }
+
+  public ChatApiRequestDto mapChatApiRequestDto(PromptDto promptDto) {
+
+    Map<String, String> userMessage = new HashMap<>();
+    List<Map<String, String>> userMessages = new ArrayList<>(promptDto.getMessages());
+    userMessage.put("role", "user");
+    userMessage.put("content", promptDto.getPrompt());
+    userMessages.add(userMessage);
+
+    return new ChatApiRequestDto(promptDto.getModel(), userMessages, promptDto.getTemperature());
   }
 }

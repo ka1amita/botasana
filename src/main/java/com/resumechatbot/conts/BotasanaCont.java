@@ -26,7 +26,6 @@ public class BotasanaCont {
   @Value(value = "${prompt.validation.length.max}")
   private int maxPromptLength;
 
-
   @Autowired
   public BotasanaCont(ChatCompletionService chatCompletionService) {
     this.chatCompletionService = chatCompletionService;
@@ -43,7 +42,7 @@ public class BotasanaCont {
   @ResponseStatus(value = HttpStatus.OK)
   Map<String, String> completePost(@Valid @RequestBody PromptDto prompt) {
     // TODO validate prompt
-    String chatCompletion = chatCompletionService.complete(prompt.getPrompt());
+    String chatCompletion = chatCompletionService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("completion", chatCompletion);
     return response;
