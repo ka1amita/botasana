@@ -1,3 +1,13 @@
+const botsBubbleInnerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>';
+
+const usersBubbleInnerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>';
+
+const thinkingText = 'Hmmm';
+
+const typingDelay = 100; // Adjust the delay between each letter
+
+const erasingDelay = 150; // Adjust the delay between each letter
+
 async function sendMessage() {
   const userPrompt = document.getElementById('user-prompt').value;
 
@@ -10,16 +20,23 @@ async function sendMessage() {
   // User's question
   const userBubble = document.createElement('div');
   userBubble.className = 'message user-message';
-  userBubble.innerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>';
+  userBubble.innerHTML = usersBubbleInnerHTML + userPrompt;
   chatMessages.appendChild(userBubble);
 
-  // Simulate typing effect for user's message
-  await simulateTyping(userPrompt, userBubble);
+  document.getElementById('user-prompt').value = ' '; // erase the user's prompt but avoid displaying the placeholder
 
   const inputElement = document.getElementById('user-prompt')
   inputElement.scrollIntoView({behavior: "smooth"})
 
+  const botBubble = document.createElement('div');
+  botBubble.className = 'message bot-message';
+  botBubble.innerHTML = botsBubbleInnerHTML;
+  chatMessages.appendChild(botBubble);
+  // Simulate a delay before fetching the actual response
+
+  await simulateTyping(thinkingText, botBubble);
   // Make HTTP request to the API
+  let botsText;
   try {
     const response = await fetch('http://127.0.0.1:8080/botasana', {
       method: 'POST',
@@ -32,29 +49,20 @@ async function sendMessage() {
     const result = await response.json();
 
     // Simulate a response
-    const botMessage = document.createElement('div');
-    botMessage.className = 'message bot-message';
-    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>';
-    botMessage.onclick = function () {
-      copyTextToClipboard(botMessage.lastChild.textContent);
+    botBubble.onclick = function () {
+      copyTextToClipboard(botBubble.lastChild.textContent);
     };
-    chatMessages.appendChild(botMessage);
-
-    await simulateTyping(result.completion, botMessage);
-
+    botsText = result.completion;
     // Clear the user input and error message
-    document.getElementById('user-prompt').value = '';
   } catch (error) {
     console.error('Error:', error);
     // Handle error, e.g., display a default bot message
-    const botMessage = document.createElement('div');
-    botMessage.className = 'message bot-message';
-    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>Oupsasana, something went wrongasana';
-    botMessage.onclick = function () {
-      copyTextToClipboard(botMessage.lastChild.textContent);
-    }
-    chatMessages.appendChild(botMessage);
+    botsText = 'Oupsasana, connectionsana is brokensana';
   } finally {
+    await simulateRetypingBotsText(botsText, botBubble);
+
+    document.getElementById('user-prompt').value = '';
+
     // Scroll to the input to show the latest messages
     inputElement.scrollIntoView({ behavior: "smooth"})
   }
@@ -79,11 +87,29 @@ function copyTextToClipboard(text) {
 
 // TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
 // Function to simulate a typing effect by revealing each letter gradually
-async function simulateTyping(text, messageContainer) {
-  const delay = 100; // Adjust the delay between each letter
+async function simulateTyping(text, bubble) {
   for (let i = 0; i < text.length; i++) {
-    messageContainer.innerHTML += text.charAt(i);
-    await sleep(delay);
+    bubble.innerHTML += text.charAt(i);
+    await sleep(typingDelay);
+  }
+}
+
+async function simulateRetypingBotsText(botsText, botBubble) {
+  await simulateErasingOfThinkingText(botBubble);
+  await simulateTypingOfBotsText(botsText, botBubble);
+}
+
+async function simulateTypingOfBotsText(text, bubble) {
+  bubble.innerHTML = botsBubbleInnerHTML + text.charAt(0); // Replaces the last letter that is left behind to avoid shrinking
+  await sleep(typingDelay);
+  await simulateTyping(text.substring(1), bubble)
+}
+
+async function simulateErasingOfThinkingText(bubble) {
+  const text = thinkingText;
+  for (let i = text.length; i > 0; i--) {
+    bubble.innerHTML = botsBubbleInnerHTML + text.substring(0, i);
+    await sleep(erasingDelay);
   }
 }
 
