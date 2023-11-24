@@ -6,7 +6,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  /*height: 100vh; - this was cutting the top of the container! */
+  height: 100%;
   background-color: #ffe6e6;
 }
 
@@ -15,11 +16,11 @@ body {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 #chat-messages {
-  overflow-y: auto;
 }
 
 .message {
