@@ -28,14 +28,16 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
 
   static final Logger logger = LoggerFactory.getLogger(ChatCompletionServiceImpl.class);
   private static final String CHAT_API_URL = "https://api.openai.com/v1/chat/completions";
-  private final ChatApiConfig chatApiConfig;
   private final String openaiApiKey;
+  private final RestTemplate restTemplate;
+  private final ChatApiConfig chatApiConfig;
 
   @Autowired
   public ChatCompletionServiceImpl(
       @Value(value = "${openai.api.key}") String openaiApiKey,
-      ChatApiConfig chatApiConfig) {
+      ChatApiConfig chatApiConfig, RestTemplate restTemplate) {
     this.openaiApiKey = openaiApiKey;
+    this.restTemplate = restTemplate;
     this.chatApiConfig = chatApiConfig;
   }
 
@@ -65,9 +67,9 @@ public class ChatCompletionServiceImpl implements ChatCompletionService {
     HttpEntity<String> chatApiRequest =
         new HttpEntity<>(chatApiRequestDto.toApiRequestBody(), headers);
 
-    return new RestTemplate().postForEntity(CHAT_API_URL,
-                                          chatApiRequest,
-                                          String.class);
+    return restTemplate.postForEntity(CHAT_API_URL,
+                                      chatApiRequest,
+                                      String.class);
   }
 
   private String acceptChatApiResponse(ResponseEntity<String> chatApiResponse) {

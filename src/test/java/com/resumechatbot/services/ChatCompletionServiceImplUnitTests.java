@@ -6,7 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import com.resumechatbot.configs.ChatApiConfig;
-import com.resumechatbot.models.ChatApiPrompt;
+import com.resumechatbot.dtos.PromptDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,10 +19,12 @@ import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
 class ChatCompletionServiceImplUnitTests {
-  @Mock
-  RestTemplate restTemplate;
+
   @Mock
   ChatApiConfig chatApiConfig;
+
+  @Mock
+  RestTemplate restTemplate;
   @InjectMocks
   ChatCompletionServiceImpl chatCompletionService;
 
@@ -61,8 +63,9 @@ class ChatCompletionServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatCompletionService.complete("any");
-    // TODO fix. broken because now I can't mock the RestTemplate.postForEntity()!
+    PromptDto promptDto = new PromptDto();
+    promptDto.setPrompt("any");
+    String actual = chatCompletionService.complete(promptDto);
     // assert
     assertEquals(expected.translateEscapes(), actual);
   }
@@ -103,7 +106,9 @@ class ChatCompletionServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatCompletionService.complete("any");
+    PromptDto promptDto = new PromptDto();
+    promptDto.setPrompt("any");
+    String actual = chatCompletionService.complete(promptDto);
     // assert
     assertEquals(expected, actual);
   }
@@ -143,7 +148,9 @@ class ChatCompletionServiceImplUnitTests {
                                     eq(String.class)))
         .thenReturn(response);
     // act
-    String actual = chatCompletionService.complete("any");
+    PromptDto promptDto = new PromptDto();
+    promptDto.setPrompt("any");
+    String actual = chatCompletionService.complete(promptDto);
     // assert
     assertEquals(expected, actual);
   }

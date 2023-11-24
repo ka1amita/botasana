@@ -14,7 +14,7 @@ import java.util.Set;
 import org.assertj.core.util.Streams;
 import org.junit.jupiter.api.Test;
 
-class ChatApiPromptUnitTests {
+class ChatApiRequestDtoTests {
 
   @Test
   void prompt_has_only_the_correct_nodes() throws JsonProcessingException {
