@@ -95,7 +95,7 @@ body {
   font-family: 'Dancing Script', cursive;
 }
 
-#user-input input:focus {
+#user-input input:focus, button:focus{
   outline: none; /* Remove default focus outline */
   box-shadow: 0 0 10px rgba(250, 0, 130);
 }
