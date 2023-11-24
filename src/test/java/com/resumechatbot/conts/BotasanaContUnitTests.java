@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class BotasanaContUnitTests {
@@ -26,7 +25,7 @@ class BotasanaContUnitTests {
   public void returns_response_with_status_200_and_body_with_completion() {
     // arrange
     String completion = "completion";
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
     PromptDto prompt = new PromptDto();
     prompt.setPrompt("any");
     // act

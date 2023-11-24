@@ -37,7 +37,7 @@ class BotasanaContWebLayerTests {
     String completion = "completion";
     PromptDto prompt = new PromptDto();
     prompt.setPrompt("Test");
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
     this.mockMvc.perform(post("/botasana")
                              .contentType(MediaType.APPLICATION_JSON)
                              .content(new ObjectMapper().writeValueAsBytes(prompt)))
@@ -51,7 +51,7 @@ class BotasanaContWebLayerTests {
   @Test
   void endpoint_fails_with_missing_prompt_request_key() throws Exception {
     String completion = "completion";
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
     this.mockMvc.perform(post("/botasana"))
         .andDo(print())
         .andExpect(status().is4xxClientError())
@@ -64,7 +64,7 @@ class BotasanaContWebLayerTests {
     String completion = "completion";
     Map<String, String> prompt = new HashMap<>();
     prompt.put("different", "Test");
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
     this.mockMvc.perform(post("/botasana")
                              .contentType(MediaType.APPLICATION_JSON)
                              .content(new ObjectMapper().writeValueAsBytes(prompt)))
@@ -79,7 +79,7 @@ class BotasanaContWebLayerTests {
     String completion = "completion";
     Map<String, String> prompt = new HashMap<>();
     prompt.put("prompt", "");
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
     this.mockMvc.perform(post("/botasana")
                              .contentType(MediaType.APPLICATION_JSON)
                              .content(new ObjectMapper().writeValueAsBytes(prompt)))
@@ -111,7 +111,7 @@ class BotasanaContWebLayerTests {
   @Test
   void app_returns_error_json_to_just_not_long_prompt() throws Exception {
     String completion = "completion";
-    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+    when(chatCompletionService.complete(any(PromptDto.class))).thenReturn(completion);
 
     String oneChartooLongString = "l"
                                   + "o".repeat(promptMaxLength - "lng".length())
