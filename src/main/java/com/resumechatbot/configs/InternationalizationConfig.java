@@ -37,12 +37,11 @@ public class InternationalizationConfig implements WebMvcConfigurer {
     // interestingly enough this default (if e.g. set to "cz") is overridden with english if
     // the "Accept-Language" header is empty, but not if it is missing nor if it is set
     // to something silly; the message.properties files change nothing about it.
-    Locale defaultLocale = Locale.ENGLISH;
-    // if the language is missing, then it really doesn't localize it into; only english is supported despite that
     List<Locale> supportedLocales = List.of(new Locale("cz"));
 
     AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-    localeResolver.setDefaultLocale(defaultLocale);
+    // if the language is missing, then it really doesn't localize it into; only english is supported despite that
+    localeResolver.setDefaultLocale(Locale.ENGLISH);
     localeResolver.setSupportedLocales(supportedLocales);
     return localeResolver;
   }

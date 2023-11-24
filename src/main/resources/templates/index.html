@@ -22,6 +22,11 @@
   </div>
 </div>
 
+<script th:inline="javascript">
+  const apiUrl = [[${apiUrl}]];
+  const userLabel = [[${userLabel}]];
+  const botLabel = [[${botLabel}]];
+</script>
 <script src="../static/scripts.js" th:src="@{scripts.js}"></script>
 </body>
 </html>

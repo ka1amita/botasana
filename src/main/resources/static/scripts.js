@@ -1,6 +1,6 @@
-const botsBubbleInnerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>';
+const botsBubbleInnerHTML = `<div class="label bot-label"><span class="bot-icon"></span>${botLabel}</div>`;
 
-const usersBubbleInnerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>';
+const usersBubbleInnerHTML = `<div class="label user-label"><span class="user-icon"></span>${userLabel}</div>`;
 
 const thinkingText = 'Hmmm';
 
@@ -37,8 +37,9 @@ async function sendMessage() {
   await simulateTyping(thinkingText, botBubble);
   // Make HTTP request to the API
   let botsText;
+
   try {
-    const response = await fetch('http://127.0.0.1:8080/botasana', {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
