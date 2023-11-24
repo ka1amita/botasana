@@ -10,9 +10,11 @@ async function sendMessage() {
   // User's question
   const userBubble = document.createElement('div');
   userBubble.className = 'message user-message';
-  userBubble.innerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>'
-      + userPrompt;
+  userBubble.innerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>';
   chatMessages.appendChild(userBubble);
+
+  // Simulate typing effect for user's message
+  await simulateTyping(userPrompt, userBubble);
 
   const inputElement = document.getElementById('user-prompt')
   inputElement.scrollIntoView({behavior: "smooth"})
@@ -32,12 +34,13 @@ async function sendMessage() {
     // Simulate a response
     const botMessage = document.createElement('div');
     botMessage.className = 'message bot-message';
-    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>'
-        + result.completion;
+    botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>';
     botMessage.onclick = function () {
       copyTextToClipboard(botMessage.lastChild.textContent);
     };
     chatMessages.appendChild(botMessage);
+
+    await simulateTyping(result.completion, botMessage);
 
     // Clear the user input and error message
     document.getElementById('user-prompt').value = '';
@@ -49,7 +52,7 @@ async function sendMessage() {
     botMessage.innerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>Oupsasana, something went wrongasana';
     botMessage.onclick = function () {
       copyTextToClipboard(botMessage.lastChild.textContent);
-    };
+    }
     chatMessages.appendChild(botMessage);
   } finally {
     // Scroll to the input to show the latest messages
@@ -72,5 +75,19 @@ function copyTextToClipboard(text) {
   document.body.removeChild(textarea);
 
   alert('Text copied to clipboard!');
-  // TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
+}
+
+// TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
+// Function to simulate a typing effect by revealing each letter gradually
+async function simulateTyping(text, messageContainer) {
+  const delay = 100; // Adjust the delay between each letter
+  for (let i = 0; i < text.length; i++) {
+    messageContainer.innerHTML += text.charAt(i);
+    await sleep(delay);
+  }
+}
+
+// Function to introduce a delay
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

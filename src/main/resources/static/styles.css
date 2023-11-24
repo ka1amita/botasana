@@ -39,7 +39,8 @@ html {
 
 .bot-message {
   background-color: #fff3e6; /* Light purple for bot messages */
-  text-align: right;
+  /*text-align: right;*/
+  text-align: left;
   margin-left: 50px; /* Adjust the margin to shift the bot's bubbles to the right */
 }
 
