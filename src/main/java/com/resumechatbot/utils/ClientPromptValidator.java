@@ -17,6 +17,6 @@ class ClientPromptValidator implements ConstraintValidator<ClientPrompt, String>
 
   @Override
   public boolean isValid(String prompt, ConstraintValidatorContext context) {
-    return prompt.length() < maxPromptLength && prompt.length() > minPromptLength;
+    return prompt.length() <= maxPromptLength + 1 && prompt.length() >= minPromptLength;
   }
 }
