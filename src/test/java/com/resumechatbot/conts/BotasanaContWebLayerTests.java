@@ -44,6 +44,7 @@ class BotasanaContWebLayerTests {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").doesNotExist())
         .andExpect(jsonPath("$.completion").value(completion));
   }
 
@@ -91,13 +92,9 @@ class BotasanaContWebLayerTests {
   @Test
   void app_returns_error_json_to_a_too_long_prompt() throws Exception {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append('l');
-    for (int i = 0; i < promptMaxLength - 2; i++) {
-      builder.append('o');
-    }
-    builder.append("ng");
-    String oneChartooLongString = builder.toString();
+    String oneChartooLongString = 'l'
+                                  + "o".repeat(promptMaxLength - "lng".length() + 1)
+                                  + "ng";
     assertEquals(promptMaxLength + 1, oneChartooLongString.length());
 
     Map<String, String> prompt = new HashMap<>();
@@ -109,5 +106,27 @@ class BotasanaContWebLayerTests {
         .andExpect(status().is4xxClientError())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.error").value("invalid 'prompt' parameter provided"));
+  }
+
+  @Test
+  void app_returns_error_json_to_just_not_long_prompt() throws Exception {
+    String completion = "completion";
+    when(chatCompletionService.complete(any(String.class))).thenReturn(completion);
+
+    String oneChartooLongString = "l"
+                                  + "o".repeat(promptMaxLength - "lng".length())
+                                  + "ng";
+    assertEquals(promptMaxLength, oneChartooLongString.length());
+
+    Map<String, String> prompt = new HashMap<>();
+    prompt.put("prompt", oneChartooLongString);
+    this.mockMvc.perform(post("/botasana")
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .content(new ObjectMapper().writeValueAsBytes(prompt)))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.error").doesNotExist())
+        .andExpect(jsonPath("$.completion").value(completion));
   }
 }
