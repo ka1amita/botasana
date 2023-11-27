@@ -76,7 +76,9 @@ function copyTextToClipboard(text) {
   document.body.appendChild(textarea);
 
   // Select and copy the text
+  /*[- */
   // TODO replace with current solution
+  /* -]*/
   textarea.select();
   document.execCommand('copy');
 
@@ -86,7 +88,6 @@ function copyTextToClipboard(text) {
   alert('Text copied to clipboard!');
 }
 
-// TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
 // Function to simulate a typing effect by revealing each letter gradually
 async function simulateTyping(text, bubble) {
   for (let i = 0; i < text.length; i++) {
