@@ -37,7 +37,6 @@ async function sendMessage() {
   await simulateTyping(thinkingText, botBubble);
   // Make HTTP request to the API
   let botsText;
-
   try {
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -52,13 +51,22 @@ async function sendMessage() {
     // Simulate a response
     botBubble.onclick = function () {
       copyTextToClipboard(botBubble.lastChild.textContent);
-    };
-    botsText = result.completion;
-    // Clear the user input and error message
+    }
+
+    if (result.completion) {
+      botsText = result.completion;
+    } else if (result.error) {
+      throw new Error(result.error);
+    } else {
+      throw new Error('Oupsasana, errorsana happenesana');
+    }
   } catch (error) {
-    console.error('Error:', error);
-    // Handle error, e.g., display a default bot message
-    botsText = 'Oupsasana, connectionsana is brokensana';
+    console.error(error);
+    if (error.message) {
+      botsText = error.message;
+    } else {
+      botsText = 'Oupsasana, connectionsana is brokensana';
+    }
   } finally {
     await simulateRetypingBotsText(botsText, botBubble);
 
