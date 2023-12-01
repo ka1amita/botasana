@@ -55,7 +55,6 @@ public class BotasanaCont {
   @ResponseBody
   @ResponseStatus(value = HttpStatus.OK)
   Map<String, String> completePost(@Valid @RequestBody PromptDto prompt) {
-    // TODO validate prompt
     String chatCompletion = chatCompletionService.complete(prompt);
     Map<String, String> response = new HashMap<>();
     response.put("completion", chatCompletion);
