@@ -31,17 +31,25 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 
 ## Sample
 
-##### Landing page
+##### 1. Landing page
 
-<img alt="landing page" src="/../main/assets/images/landing-page.png" width= "500px">
+<img alt="landing page" src="assets/images/landing-page.png" width= "500px">
 
-##### User prompt
+##### 2. User prompt
 
-<img alt="user prompt" src="/../main/assets/images/user-prompt.png" width= "500px">
+<img alt="user prompt" src="assets/images/user-prompt.png" width= "500px">
 
-##### Chat completion
+##### 3. Fetching response
 
-<img alt="chat completion" src="/../main/assets/images/chat-completion.png" width= "500px">
+<img alt="fetching response" src="assets/images/fetching-response.png" width= "500px">
+
+##### 4. Chat completion
+
+<img alt="chat completion" src="assets/images/chat-completion.png" width= "500px">
+
+##### Error message
+
+<img alt="error message" src="assets/images/error-message.png" width= "500px">
 
 ## Tech stack
 
