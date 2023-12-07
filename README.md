@@ -29,8 +29,11 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 1. Open [127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 1. Send your prompt.
 
-## Tech Stack
 
+
+## Tech stack
+
+Todo list of technologies planned to implement:
 + [x] OpenAI API <img alt="OpenAI" class="icon" style="height: 20px" src="readme-img/openai.svg"/>
 + [x] Spring Boot 
 + [ ] PostgreSQL
