@@ -31,13 +31,30 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 
 ## Sample
 
-+ Landing page
-<img alt="landing page" src="https://github.com/ka1amita/resume-chatbot/assets/images/landing-page.png" style="max-width: 200px;">
+##### 1. Landing page
+
+<img alt="landing page" src="assets/images/landing-page.png" width= "500px">
+
+##### 2. User prompt
+
+<img alt="user prompt" src="assets/images/user-prompt.png" width= "500px">
+
+##### 3. Fetching response
+
+<img alt="fetching response" src="assets/images/fetching-response.png" width= "500px">
+
+##### 4. Chat completion
+
+<img alt="chat completion" src="assets/images/chat-completion.png" width= "500px">
+
+##### Error message
+
+<img alt="error message" src="assets/images/error-message.png" width= "500px">
 
 ## Tech stack
 
 Todo list of technologies planned to implement:
-+ [x] OpenAI API <img alt="OpenAI" class="icon" style="height: 20px" src="readme-img/openai.svg"/>
++ [x] OpenAI API <img alt="OpenAI" class="icon" height="20px" src="assets/icons/openai.svg"/>
 + [x] Spring Boot 
 + [ ] PostgreSQL
 + [x] Java
