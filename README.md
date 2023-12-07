@@ -30,7 +30,7 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 1. Send your prompt.
 
 > [!TIP]
-> add `-e PROMPT_VALIDATION_LENGTH_MAX=<desired_limit>` to increase prompt limit
+> add `-e PROMPT_VALIDATION_LENGTH_MAX=<desired-limit>` to increase prompt limit
 
 ## Sample
 
