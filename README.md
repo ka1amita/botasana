@@ -46,7 +46,7 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 ## Tech stack
 
 Todo list of technologies planned to implement:
-+ [x] OpenAI API <img alt="OpenAI" class="icon" height="20px" src="readme-img/openai.svg"/>
++ [x] OpenAI API <img alt="OpenAI" class="icon" height="20px" src="assets/icons/openai.svg"/>
 + [x] Spring Boot 
 + [ ] PostgreSQL
 + [x] Java
