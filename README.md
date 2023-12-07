@@ -11,7 +11,9 @@ Stay tuned for further developments and spin-offs.
 
 ## Description
 
+_Botasana_ is a chatbot that replies with humorously edited user prompt. Some words in the user prompt are modified in order to resemble names of yoga [asanas](https://en.wikipedia.org/wiki/Asana).
 
+To achieve this, _Botasana_ uses a [OpenAI comletion API](https://platform.openai.com/docs/guides/text-generation).
 
 ## Try it!
 
