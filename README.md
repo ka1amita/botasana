@@ -2,9 +2,16 @@
 
 ## Introduction
 
-I
+I have successfully finished a bootcamp recently. And I am applying for jobs now. 
+I am working on this project in order to practice, extend, and, hopefully, showcase my software development skills.
+
+Originally, I set the goal much higher and this is just the first step towards it.
+I continue to work on the project in between interviews and preparation.
+Stay tuned for further developments and spin-offs.
 
 ## Description
+
+
 
 ## Try it!
 
