@@ -1,27 +1,35 @@
-<style type="text/css">
-.tech-stack-icon {height: 20px;}
-</style>
+# Botasana Chatbot
 
-# Resume Chatbot
+## Introduction
 
-## Goals
+## Description
 
-+ skill demo
-+ learning
-+ practice
+## Try it
+
+### Using Docker Image
+
+> [!Note]
+> You will need your own [OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup) to run it locally. Otherwise check my [homepage](ka1amita.github.io) if there is a live version running.
+
+1. Download the image from Docker Hub and run it locally.
+   ```shell
+   docker run -dp 127.0.0.1:8080:8080 -e SECRET_OPENAI_API_KEY=<your-openai-api-key> ka1amita/botasana
+   ```
+1. Open [127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
+1. Send your prompt.
 
 ## Tech Stack
 
-+ OpenAI API <img alt="OpenAI" class="tech-stack-icon" src="readme-img/openai.svg"/>
-+ Spring Boot 
-+ PostgreSQL
-+ Java
-+ Log4j
-+ Junit.Jupiter
-+ HTMX
-+ Terraform
-+ AWS
-+ GitHub Acitons (or CIrcleCI)
-+ ELK or other
-+ 
-
++ [x] OpenAI API <img alt="OpenAI" class="icon" style="height: 20px" src="readme-img/openai.svg"/>
++ [x] Spring Boot 
++ [x] PostgreSQL
++ [x] Java
++ [x] Log4j
++ [x] Jupiter
++ [x] Docker
++ [X] HMTL, CSS, JS
++ [ ] HTMX
++ [ ] Terraform
++ [ ] AWS
++ [ ] GitHub Acitons
++ [ ] ELK
