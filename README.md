@@ -1,15 +1,17 @@
-# Botasana Chatbot
+# Botasana chatbot
 
 ## Introduction
 
+I
+
 ## Description
 
-## Try it
+## Try it!
 
-### Using Docker Image
+### Using Docker image
 
 > [!Note]
-> You will need your own [OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup) to run it locally. Otherwise check my [homepage](ka1amita.github.io) if there is a live version running.
+> You will need your own [OpenAI API key](https://platform.openai.com/docs/quickstart/account-setup) to run it locally. Otherwise check my [homepage](ka1amita.github.io) if there is currently a live version running.
 
 1. Download the image from Docker Hub and run it locally.
    ```shell
