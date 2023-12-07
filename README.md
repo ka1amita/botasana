@@ -32,7 +32,7 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 ## Sample
 
 + Landing page
-<img alt="landing page" src="/../main/assets/images/landing-page.png" style="max-width: 200px;">
+  <img alt="landing page" src="/../main/assets/images/landing-page.png" style="max-width: 100px;">
 
 ## Tech stack
 
