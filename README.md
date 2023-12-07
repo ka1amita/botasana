@@ -29,7 +29,10 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 1. Open [127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 1. Send your prompt.
 
+## Sample
 
++ Landing page
+<img alt="landing page" src="https://github.com/ka1amita/resume-chatbot/assets/images/landing-page" style="max-width: 200px;">
 
 ## Tech stack
 
