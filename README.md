@@ -33,7 +33,7 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 
 + [x] OpenAI API <img alt="OpenAI" class="icon" style="height: 20px" src="readme-img/openai.svg"/>
 + [x] Spring Boot 
-+ [x] PostgreSQL
++ [ ] PostgreSQL
 + [x] Java
 + [x] Log4j
 + [x] Jupiter
