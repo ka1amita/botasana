@@ -29,6 +29,9 @@ To achieve this _Botasana_ uses a [OpenAI comletion API](https://platform.openai
 1. Open [127.0.0.1:8080](http://127.0.0.1:8080) in your browser.
 1. Send your prompt.
 
+> [!TIP]
+> add `-e PROMPT_VALIDATION_LENGTH_MAX=<desired_limit>` to increase prompt limit
+
 ## Sample
 
 ##### 1. Landing page
