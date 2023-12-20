@@ -1,11 +1,26 @@
+cheatsheets/
 HELP.md
+NOTES.md
+
+### Logs ###
+/logs/*.log
+/logs/archived/*.gz
+
+### Build ###
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### .env ###
+.env
+.env.*
+!.env.example
+
+### Gradle & Gradlew  ###
 .gradle
 gradlew
 gradlew.bat
-build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### STS ###
 .apt_generated
