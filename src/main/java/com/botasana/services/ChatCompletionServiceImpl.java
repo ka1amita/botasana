@@ -1,11 +1,11 @@
-package com.resumechatbot.services;
+package com.botasana.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.resumechatbot.configs.ChatApiConfig;
-import com.resumechatbot.dtos.ChatApiRequestDto;
-import com.resumechatbot.dtos.PromptDto;
+import com.botasana.configs.ChatApiConfig;
+import com.botasana.dtos.ChatApiRequestDto;
+import com.botasana.dtos.PromptDto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

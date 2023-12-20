@@ -1,4 +1,4 @@
-package com.resumechatbot.conts;
+package com.botasana.conts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,8 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.resumechatbot.dtos.PromptDto;
-import com.resumechatbot.services.ChatCompletionService;
+import com.botasana.dtos.PromptDto;
+import com.botasana.services.ChatCompletionService;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;

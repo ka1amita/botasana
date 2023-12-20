@@ -1,4 +1,4 @@
-package com.resumechatbot;
+package com.botasana;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,9 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationPropertiesScan // because of ConfigurationProperties
 @SpringBootApplication
-public class ResumeChatbotApplication implements CommandLineRunner {
+public class BotasanaApplication implements CommandLineRunner {
   public static void main(String[] args) {
-    SpringApplication.run(ResumeChatbotApplication.class, args);
+    SpringApplication.run(BotasanaApplication.class, args);
   }
 
   @Override

@@ -1,4 +1,4 @@
-package com.resumechatbot.configs;
+package com.botasana.configs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

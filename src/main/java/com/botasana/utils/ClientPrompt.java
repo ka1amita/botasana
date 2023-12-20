@@ -1,4 +1,4 @@
-package com.resumechatbot.utils;
+package com.botasana.utils;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;

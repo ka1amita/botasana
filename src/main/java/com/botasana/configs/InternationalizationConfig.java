@@ -1,6 +1,5 @@
-package com.resumechatbot.configs;
+package com.botasana.configs;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.context.MessageSource;
@@ -40,7 +39,8 @@ public class InternationalizationConfig implements WebMvcConfigurer {
     List<Locale> supportedLocales = List.of(new Locale("cz"));
 
     AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-    // if the language is missing, then it really doesn't localize it into; only english is supported despite that
+    // if the language is missing, then it really doesn't localize it into;
+    // only english is supported despite that
     localeResolver.setDefaultLocale(Locale.ENGLISH);
     localeResolver.setSupportedLocales(supportedLocales);
     return localeResolver;

@@ -1,4 +1,4 @@
-package com.resumechatbot.exceptions;
+package com.botasana.exceptions;
 
 import java.util.HashMap;
 import java.util.Map;

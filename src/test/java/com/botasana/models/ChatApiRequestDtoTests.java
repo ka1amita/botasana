@@ -1,4 +1,4 @@
-package com.resumechatbot.models;
+package com.botasana.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.resumechatbot.dtos.ChatApiRequestDto;
+import com.botasana.dtos.ChatApiRequestDto;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map.Entry;

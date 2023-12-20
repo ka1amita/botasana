@@ -1,8 +1,8 @@
-package com.resumechatbot.dtos;
+package com.botasana.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.resumechatbot.configs.ChatApiConfig;
-import com.resumechatbot.utils.ClientPrompt;
+import com.botasana.configs.ChatApiConfig;
+import com.botasana.utils.ClientPrompt;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

@@ -1,11 +1,11 @@
-package com.resumechatbot.conts;
+package com.botasana.conts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.resumechatbot.dtos.PromptDto;
-import com.resumechatbot.services.ChatCompletionService;
+import com.botasana.dtos.PromptDto;
+import com.botasana.services.ChatCompletionService;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

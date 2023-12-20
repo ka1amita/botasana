@@ -1,6 +1,6 @@
-package com.resumechatbot.services;
+package com.botasana.services;
 
-import com.resumechatbot.dtos.PromptDto;
+import com.botasana.dtos.PromptDto;
 
 public interface ChatCompletionService {
 

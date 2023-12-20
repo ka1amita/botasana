@@ -1,7 +1,7 @@
-package com.resumechatbot.conts;
+package com.botasana.conts;
 
-import com.resumechatbot.dtos.PromptDto;
-import com.resumechatbot.services.ChatCompletionService;
+import com.botasana.dtos.PromptDto;
+import com.botasana.services.ChatCompletionService;
 import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;

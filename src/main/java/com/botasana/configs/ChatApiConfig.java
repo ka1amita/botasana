@@ -1,4 +1,4 @@
-package com.resumechatbot.configs;
+package com.botasana.configs;
 
 import java.util.ArrayList;
 import java.util.HashMap;

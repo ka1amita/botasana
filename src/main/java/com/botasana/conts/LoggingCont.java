@@ -1,4 +1,4 @@
-package com.resumechatbot.conts;
+package com.botasana.conts;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

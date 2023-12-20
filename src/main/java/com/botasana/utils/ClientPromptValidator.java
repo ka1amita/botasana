@@ -1,4 +1,4 @@
-package com.resumechatbot.utils;
+package com.botasana.utils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -8,7 +8,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 class ClientPromptValidator implements ConstraintValidator<ClientPrompt, String> {
 
-// TODO figure how to better load external configuratuion and be able to output expanded Validation error messeages
+  // TODO figure how to better load external configuratuion and be able to output expanded
+  //  Validation error messeages
 
   @Value(value = "${prompt.validation.length.min}")
   private int minPromptLength;
