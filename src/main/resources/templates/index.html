@@ -22,6 +22,11 @@
   </div>
 </div>
 
+<script th:inline="javascript">
+  const apiUrl = /*[[${apiUrl}]]*/ "http://127.0.0.1:8080/botasana";
+  const userLabel = /*[[${userLabel}]]*/ "You";
+  const botLabel = /*[[${botLabel}]]*/ "Botasana";
+</script>
 <script src="../static/scripts.js" th:src="@{scripts.js}"></script>
 </body>
 </html>

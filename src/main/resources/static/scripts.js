@@ -1,6 +1,6 @@
-const botsBubbleInnerHTML = '<div class="label bot-label" th:text="#{label.bot}"><span class="bot-icon"></span>Botasana</div>';
+const botsBubbleInnerHTML = `<div class="label bot-label"><span class="bot-icon"></span>${botLabel}</div>`;
 
-const usersBubbleInnerHTML = '<div class="label user-label" th:text="#{label.user}"><span class="user-icon"></span>You</div>';
+const usersBubbleInnerHTML = `<div class="label user-label"><span class="user-icon"></span>${userLabel}</div>`;
 
 const thinkingText = 'Hmmm';
 
@@ -38,7 +38,7 @@ async function sendMessage() {
   // Make HTTP request to the API
   let botsText;
   try {
-    const response = await fetch('http://127.0.0.1:8080/botasana', {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,13 +51,22 @@ async function sendMessage() {
     // Simulate a response
     botBubble.onclick = function () {
       copyTextToClipboard(botBubble.lastChild.textContent);
-    };
-    botsText = result.completion;
-    // Clear the user input and error message
+    }
+
+    if (result.completion) {
+      botsText = result.completion;
+    } else if (result.error) {
+      throw new Error(result.error);
+    } else {
+      throw new Error('Oupsasana, errorsana happenesana');
+    }
   } catch (error) {
-    console.error('Error:', error);
-    // Handle error, e.g., display a default bot message
-    botsText = 'Oupsasana, connectionsana is brokensana';
+    console.error(error);
+    if (error.message) {
+      botsText = error.message;
+    } else {
+      botsText = 'Oupsasana, connectionsana is brokensana';
+    }
   } finally {
     await simulateRetypingBotsText(botsText, botBubble);
 
@@ -75,7 +84,9 @@ function copyTextToClipboard(text) {
   document.body.appendChild(textarea);
 
   // Select and copy the text
+  /*[- */
   // TODO replace with current solution
+  /* -]*/
   textarea.select();
   document.execCommand('copy');
 
@@ -85,7 +96,6 @@ function copyTextToClipboard(text) {
   alert('Text copied to clipboard!');
 }
 
-// TODO add smooth typing of the response and also some arbitrary text during waiting for the response from the API
 // Function to simulate a typing effect by revealing each letter gradually
 async function simulateTyping(text, bubble) {
   for (let i = 0; i < text.length; i++) {
