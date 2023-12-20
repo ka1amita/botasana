@@ -1,0 +1,13 @@
+services:
+  botasana:
+    build:
+      context: .
+      target: compose
+    ports:
+      - "8080:8080"
+    secrets:
+      - SECRET_OPENAI_API_KEY
+
+secrets:
+  SECRET_OPENAI_API_KEY:
+    file: ./openai-api-key.secret
