@@ -1,16 +1,18 @@
-FROM gradle:jdk17 as builder
+FROM gradle:jdk17 AS cache
 WORKDIR /home/gradle/project/
+ENV GRADLE_USER_HOME /home/gradle/.gradle
 COPY build.gradle settings.gradle ./
+RUN gradle --no-daemon dependencies --info --build-cache --configuration-cache --dependency-verification strict --stacktrace dependencies
+
+FROM cache AS build
+COPY config/ config/
 COPY src/ src/
-RUN gradle --no-daemon bootJar
+COPY .env.test .env
+RUN gradle --no-daemon --info --build-cache --configuration-cache --stacktrace build
 
-FROM amazoncorretto:17-alpine as runner
+FROM amazoncorretto:17-alpine AS pub
 WORKDIR /botasana
-COPY --from=builder /home/gradle/project/build/libs/resume-chatbot-0.0.1-SNAPSHOT.jar botasana.jar
-COPY .env.docker .env
-ENTRYPOINT ["java"]
-CMD ["-Dspring.config.import=optional:file:.env[.properties]", "-jar", "botasana.jar"]
+COPY --from=build /home/gradle/project/build/libs/botasana-0.0.1-SNAPSHOT.jar botasana.jar
+COPY .env.example .env
+ENTRYPOINT ["java", "-jar", "botasana.jar"]
 EXPOSE 8080
-
-# docker run -e SECRET_OPENAI_API_KEY=<openai-api-key> ...
-# docker run --rm -u gradle -v "$PWD":/home/gradle/project -w /home/gradle/project gradle gradle <gradle-task>
