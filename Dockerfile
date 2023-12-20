@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM gradle:jdk17 AS cache
 WORKDIR /home/gradle/project/
 ENV GRADLE_USER_HOME /home/gradle/.gradle
