@@ -65,6 +65,7 @@ Todo list of technologies planned to implement:
 + [x] Jupiter
 + [x] Docker
 + [X] HMTL, CSS, JS
++ [X] Thymeleaf
 + [ ] HTMX
 + [ ] Terraform
 + [ ] AWS
