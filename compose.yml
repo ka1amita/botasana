@@ -1,8 +1,6 @@
 services:
   botasana:
-    build:
-      context: .
-      target: compose
+    image: ka1amita/botasana:compose
     ports:
       - "8080:8080"
     secrets:
